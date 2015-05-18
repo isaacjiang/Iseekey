@@ -1,0 +1,48 @@
+# kivy 1.0
+<Label>:
+    font_size: 60
+    font_name: 'Silom.ttf'
+
+
+<cButton@Button>:
+    font_name: 'Arial Narrow.ttf'
+    font_size: 20
+    bold: True
+    border: (2, 2, 2, 2)
+
+ClockLayout:
+    input_text_prop: input_text
+    time_prop: time
+    start_prop: start_stop
+    stopwatch_prop: stopwatch
+    notice_text_prop: notice_text
+
+    Label:
+        id: time
+        size_hint: (1,.2)
+        pos: (0, 440)
+    Label:
+        id: stopwatch
+        size_hint: (1,.2)
+        pos: (0, 320)
+
+    Label:
+        id: input_text
+        font_size: 20
+        font_name: 'Arial Narrow.ttf'
+        size_hint: (1,.2)
+        pos: (0, 200)
+
+    cButton:
+        id: start_stop
+        text: 'Start'
+        on_press: app.start_stop()
+        size_hint: (.2,.08)
+        pos_hint: {'x':.4,'y':.2}
+
+    Label:
+        id: notice_text
+        font_size: 12
+        font_name: 'Arial Narrow.ttf'
+        size_hint: (1,.05)
+        pos: (0, 20)
