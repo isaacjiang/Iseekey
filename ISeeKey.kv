@@ -1,0 +1,118 @@
+# kivy 1.0
+
+<iLabel@Label>:
+    font_size: 16
+    font_name: 'Osaka.ttf'
+    pos_hint: { 'center_x' : .5 }
+    size_hint: (.5,.2)
+
+<iTextInput@TextInput>:
+    font_size: 16
+    font_name: 'Osaka.ttf'
+    pos_hint: { 'center_x' : .5 }
+    size_hint: (.5,.2)
+
+<iButton@Button>:
+    font_name: 'Arial Narrow.ttf'
+    font_size: 20
+    pos_hint: { 'center_x' : .5, 'center_y' : .5 }
+    size_hint: (.5,.2)
+
+<LoginLayout@BoxLayout>:
+    orientation: 'vertical'
+
+<AdScreen@Screen,SigninScreen@Screen>:
+    canvas:
+        Rectangle:
+            source: 'image/iseekey05.jpeg'
+            pos: self.pos
+            size: self.size
+<CategoryScreen@Screen,PlayingScreen@Screen>:
+    canvas:
+        Color:
+            rgb:(.6, .6, .6)
+        Rectangle:
+            source: 'image/iseekey06.png'
+            pos: self.pos
+            size: self.size
+
+ScreenManager:
+
+
+    username_prop: input_username
+    password_prop: password
+    sign_in_prop: sign_in
+
+    AdScreen:
+        name: 'ad'
+        Video:
+            id: vd
+            source: 'image/Media.mov'
+            state: 'play'
+        Button:
+            font_name: 'Arial Narrow.ttf'
+            font_size: 20
+            pos_hint: { 'center_x' : .9, 'center_y' : .1 }
+            size_hint: (.2,.05)
+            text: 'Skip'
+            on_press: root.current = 'category'; vd.state = 'stop'
+        Label:
+            id: sign_up
+            text: 'new user'
+            size_hint: (.5,.2)
+            pos_hint: { 'center_x' : .9, 'center_y' : .05}
+
+    SigninScreen:
+        name: 'signin'
+        LoginLayout:
+
+            Label:
+            iTextInput:
+                id: input_username
+                text: 'username'
+            iTextInput:
+                id: password
+                text: 'password'
+            iButton:
+                id: sign_in
+                text: 'Sign In'
+                on_press: root.current = 'category';app.sign_in()
+            Label:
+
+    CategoryScreen:
+        name: 'category'
+        GridLayout:
+            cols: 1
+            rows: 6
+
+            Label:
+                text: 'Category'
+                font_size: 40
+
+            ListView:
+                canvas:
+                    Color:
+                        rgb:(.6, .6, .6)
+                background_color: 'ffffff'
+                size_hint: .8,.8
+                item_strings: [str(index) for index in range(100)]
+
+            iButton:
+                on_press: root.current = 'playing';app.sign_in()
+
+    PlayingScreen:
+        name: 'playing'
+        LoginLayout:
+
+            Label:
+            iTextInput:
+                id: input_username
+                text: 'playing'
+            iTextInput:
+                id: password
+                text: 'password'
+            iButton:
+                id: sign_in
+                text: 'Sign In'
+                on_press: app.sign_in()
+            Label:
