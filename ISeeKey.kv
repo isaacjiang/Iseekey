@@ -1,6 +1,14 @@
 # kivy 1.0
 
-
+[flListItem@SelectableView+BoxLayout]:
+    size_hint_y: ctx.size_hint_y
+    height: ctx.height
+    ListItemButton:
+        selected_color: 0, 0, 1, 1
+        deselected_color: 0, 1, 0, 1
+        text: ctx.text
+        is_selected: ctx.is_selected
+        on_release: app.root.current = 'category1';
 
 [cwListItem@SelectableView+BoxLayout]:
     size_hint_y: ctx.size_hint_y
@@ -11,6 +19,7 @@
         text: ctx.text
         is_selected: ctx.is_selected
         on_release: app.root.current = 'working'; app.get_cw(app.root)
+
 
 <AdScreen>:
     canvas:
@@ -27,12 +36,15 @@
         pos_hint: { 'center_x' : .9, 'center_y' : .1 }
         size_hint: (.2,.05)
         text: 'Skip'
-        on_press: root.manager.current = 'sign'; vd.state = 'stop'
-    Label:
+        on_press: root.manager.current = 'category1'; vd.state = 'stop'
+    Button:
         id: sign_up
-        text: 'new user'
-        size_hint: (.5,.2)
+        font_name: 'Arial Narrow.ttf'
+        font_size: 14
+        text: 'Sign in/up'
+        size_hint: (.2,.05)
         pos_hint: { 'center_x' : .9, 'center_y' : .05}
+        on_press: root.manager.current = 'sign'; vd.state = 'stop'
 
 <SignScreen>:
     canvas:
@@ -55,11 +67,69 @@
         pos_hint: { 'center_x' : .5, 'center_y' : .42 }
         size_hint: (.5,.06)
         on_press: app.sign_in()
-        on_release: root.manager.current = 'category';
+        on_release: root.manager.current = 'category3';
 
+<CategoryScreen1>:
+    canvas:
+        Rectangle:
+            source: 'image/iseekey06.png'
+            size: self.size
+    Button:
+        font_size: 32
+        text: 'Courseworks'
+        pos_hint: { 'center_x' : .5, 'center_y' : .9}
+        size_hint: (1,.2)
 
+    Button:
+        text: 'Next screen'
+        font_size: 12
+        pos_hint: { 'center_x' : .9, 'center_y' : .9 }
+        size_hint: (.2,.05)
+        on_release: root.manager.current = root.manager.next()
 
-<CategoryScreen>:
+    Button:
+        text: 'Previous screen'
+        font_size: 12
+        pos_hint: { 'center_x' : .1, 'center_y' : .9 }
+        size_hint: (.2,.05)
+        on_release: root.manager.current = root.manager.previous()
+
+    flListView:
+        id: firstlevel
+
+        size_hint: (1,.8)
+
+<CategoryScreen2>:
+    canvas:
+        Rectangle:
+            source: 'image/iseekey06.png'
+            size: self.size
+    Button:
+        font_size: 32
+        text: 'Courseworks'
+        pos_hint: { 'center_x' : .5, 'center_y' : .9}
+        size_hint: (1,.2)
+
+    Button:
+        text: 'Next screen'
+        font_size: 12
+        pos_hint: { 'center_x' : .9, 'center_y' : .9 }
+        size_hint: (.2,.05)
+        on_release: root.manager.current = root.manager.next()
+
+    Button:
+        text: 'Previous screen'
+        font_size: 12
+        pos_hint: { 'center_x' : .1, 'center_y' : .9 }
+        size_hint: (.2,.05)
+        on_release: root.manager.current = root.manager.previous()
+
+    flListView:
+        id: firstlevel
+
+        size_hint: (1,.8)
+
+<CategoryScreen3>:
     canvas:
         Rectangle:
             source: 'image/iseekey06.png'
@@ -95,45 +165,63 @@
         Rectangle:
             source: 'image/iseekey06.png'
             size: self.size
-
-    Button:
-        font_size: 32
-        text: 'Courseworks'
-        pos_hint: { 'center_x' : .5, 'center_y' : .9}
-        size_hint: (1,.2)
-
-
-
-    Button:
-        text: 'Previous screen'
-        font_size: 12
-        pos_hint: { 'center_x' : .1, 'center_y' : .9 }
-        size_hint: (.2,.05)
-        on_release: root.manager.current = root.manager.previous()
-
-    Button:
+    Label:
+        canvas.before:
+            Color:
+                rgb: 1, 1, 1
+            Rectangle:
+                source: 'image/bccf1c84f1077b2207404c16c437a669.jpg'
+                size: self.size
+                pos: self.pos
         id: cw_desc
         text: '......'
         font_size: 12
-        pos_hint: { 'center_x' : .5, 'center_y' : .7 }
+        color: [0,0,0,1]
+        pos_hint: { 'center_x' : .5, 'center_y' : .9 }
         size_hint: (1,.2)
+        text_size: self.size
+        halign: 'center'
+        valign: 'middle'
+        markup: True
+
     TextInput:
         id: input_speech
         text: 'Please press "Start" to start...'
         font_size: 12
-        pos_hint: { 'center_x' : .5, 'center_y' : .5 }
+        pos_hint: { 'center_x' : .5, 'center_y' : .7 }
         size_hint: (1,.2)
     Button:
         id: gsra_start
         text: 'Start'
         font_size: 12
-        pos_hint: { 'center_x' : .3, 'center_y' : .3 }
-        size_hint: (.3,.06)
-        on_press: app.gsra_start()
+        pos_hint: { 'center_x' : .5, 'center_y' : .3 }
+        size_hint: (.2,.06)
+        on_press: app.gsra_start(app.root)
+    Button:
+        text: 'Back end'
+        font_size: 12
+        pos_hint: { 'center_x' : .2, 'center_y' : .2 }
+        size_hint: (.2,.06)
+        on_press: app.play_audio('backend')
+    Button:
+        text: 'Back 5s'
+        font_size: 12
+        pos_hint: { 'center_x' : .4, 'center_y' : .2 }
+        size_hint: (.2,.06)
+        on_press: app.play_audio('back5s')
+    Button:
+        id: cw_replay
+        text: 'Replay'
+        font_size: 12
+        pos_hint: { 'center_x' : .6, 'center_y' : .2 }
+        size_hint: (.2,.06)
+        on_press: app.play_audio('replay')
     Button:
         id: cw_file
-        text: 'Play Origin'
+        text: 'Play'
         font_size: 12
-        pos_hint: { 'center_x' : .7, 'center_y' : .3 }
-        size_hint: (.3,.06)
+        pos_hint: { 'center_x' : .8, 'center_y' : .2 }
+        size_hint: (.2,.06)
         on_press: app.play_origin(app.root)
+
+

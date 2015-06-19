@@ -3,10 +3,9 @@
 import speech_recognition as sr
 import pyaudio as pa
 import wave as wv
-from kivy.core.video import Video
-import pygame
-from pygame import movie
-
+from kivy.storage.dictstore import DictStore
+import threading
+import time
 
 class SpeechInput():
     def speech_input(self):
@@ -20,10 +19,9 @@ class SpeechInput():
         return t
 
 class Play():
-
-    def play_audio(self):
+    def play_audio(self,filename):
          chunk = 1024                                  #define stream chunk
-         f = wv.open(r'audio/doublebass.wav','rb')     #open a wav format music
+         f = wv.open(r''+filename,'rb')     #open a wav format music
          p = pa.PyAudio()
          stream = p.open(format = p.get_format_from_width(f.getsampwidth()),
                 channels = f.getnchannels(),
@@ -35,6 +33,35 @@ class Play():
              data = f.readframes(chunk)
          p.terminate()
 
+class audio():
+
+    def __init__(self):
+        pass
+
+    def load(self, state):
+        ds = DictStore('temp')
+        cwf = ds.get('select_cw_file')['file']
+
+        from kivy.core.audio import SoundLoader
+        sound = SoundLoader.load('audio/'+cwf)
+        if sound:
+            if state == 'play':
+                sound.play()
+                print sound.source
+            elif state == 'stop':
+                sound.load()
+                sound.stop()
+                print sound.get_pos()
+            else:
+                print sound.get_pos()
+
+    def play(self):
+        thr1 = threading.Thread(target=self.load)
+        thr1.start()
+
+    def play_back(self):
+        thr2 = threading.Thread(target=self.load)
+        thr2.start()
 
 
 
