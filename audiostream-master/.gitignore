@@ -1,0 +1,9 @@
+*.pyc
+*.pyo
+*.c
+*.so
+*.swp
+build
+audiostream/config.pxi
+
+*.egg-info
